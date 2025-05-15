@@ -1,5 +1,28 @@
 <?php
+/**
+ * The template for displaying comments
+ *
+ * This is the template that displays the area of the page that contains both the current comments
+ * and the comment form.
+ *
+ * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
+ * 
+ * @package WordPress_Starter_Theme
+ * @since   1.0
+ * @version 2.0
+ */
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+
+/*
+ * If the current post is protected by a password and
+ * the visitor has not yet entered the password we will
+ * return early without loading the comments.
+ */
 if ( post_password_required() ) {
 	return;
 }
@@ -8,69 +31,60 @@ if ( post_password_required() ) {
 <div id="comments" class="comments-area">
 
 	<?php
-	// You can start editing here -- including this comment!
-	if ( have_comments() ) : ?>
+	if ( have_comments() ) :
+		?>
 		<h2 class="comments-title">
 			<?php
-				printf( // WPCS: XSS OK.
-					esc_html( _nx( 'One thought on &ldquo;%2$s&rdquo;', '%1$s thoughts on &ldquo;%2$s&rdquo;', get_comments_number(), 'comments title', 'walkestarter' ) ),
-					esc_html( _nx( 'One thought on &ldquo;%2$s&rdquo;', '%1$s thoughts on &ldquo;%2$s&rdquo;', get_comments_number(), 'comments title', 'walkestarter' ) ),
-					number_format_i18n( get_comments_number() ),
-					'<span>' . get_the_title() . '</span>'
+			$wordpress_starter_theme_comment_count = get_comments_number();
+			if ( '1' === $wordpress_starter_theme_comment_count ) {
+				printf(
+					/* translators: 1: title. */
+					esc_html__( 'One thought on &ldquo;%1$s&rdquo;', 'wordpress-starter-theme' ),
+					'<span>' . wp_kses_post( get_the_title() ) . '</span>'
 				);
+			} else {
+				printf(
+					/* translators: 1: comment count number, 2: title. */
+					esc_html( _nx( '%1$s thought on &ldquo;%2$s&rdquo;', '%1$s thoughts on &ldquo;%2$s&rdquo;', $wordpress_starter_theme_comment_count, 'comments title', 'wordpress-starter-theme' ) ),
+					number_format_i18n( $wordpress_starter_theme_comment_count ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					'<span>' . wp_kses_post( get_the_title() ) . '</span>'
+				);
+			}
 			?>
 		</h2><!-- .comments-title -->
 
-		<?php if ( get_comment_pages_count() > 1 && get_option( 'page_comments' ) ) : // Are there comments to navigate through? ?>
-		<nav id="comment-nav-above" class="navigation comment-navigation" role="navigation">
-			<h2 class="screen-reader-text"><?php esc_html_e( 'Comment navigation', 'walkestarter' ); ?></h2>
-			<h2 class="screen-reader-text"><?php esc_html_e( 'Comment navigation', 'walkestarter' ); ?></h2>
-			<div class="nav-links">
-
-				<div class="nav-previous"><?php previous_comments_link( esc_html__( 'Older Comments', 'walkestarter' ) ); ?></div>
-				<div class="nav-previous"><?php previous_comments_link( esc_html__( 'Older Comments', 'walkestarter' ) ); ?></div>
-				<div class="nav-next"><?php next_comments_link( esc_html__( 'Newer Comments', 'walkestarter' ) ); ?></div>
-				<div class="nav-next"><?php next_comments_link( esc_html__( 'Newer Comments', 'walkestarter' ) ); ?></div>
-
-			</div><!-- .nav-links -->
-		</nav><!-- #comment-nav-above -->
-		<?php endif; // Check for comment navigation. ?>
+		<?php the_comments_navigation(); ?>
 
 		<ol class="comment-list">
 			<?php
-				wp_list_comments( array(
+			wp_list_comments(
+				array(
 					'style'      => 'ol',
 					'short_ping' => true,
-				) );
+					'avatar_size' => 60, // Adjust avatar size as needed
+				)
+			);
 			?>
 		</ol><!-- .comment-list -->
 
-		<?php if ( get_comment_pages_count() > 1 && get_option( 'page_comments' ) ) : // Are there comments to navigate through? ?>
-		<nav id="comment-nav-below" class="navigation comment-navigation" role="navigation">
-			<h2 class="screen-reader-text"><?php esc_html_e( 'Comment navigation', 'walkestarter' ); ?></h2>
-			<h2 class="screen-reader-text"><?php esc_html_e( 'Comment navigation', 'walkestarter' ); ?></h2>
-			<div class="nav-links">
-
-				<div class="nav-previous"><?php previous_comments_link( esc_html__( 'Older Comments', 'walkestarter' ) ); ?></div>
-				<div class="nav-previous"><?php previous_comments_link( esc_html__( 'Older Comments', 'walkestarter' ) ); ?></div>
-				<div class="nav-next"><?php next_comments_link( esc_html__( 'Newer Comments', 'walkestarter' ) ); ?></div>
-
-			</div><!-- .nav-links -->
-		</nav><!-- #comment-nav-below -->
 		<?php
-		endif; // Check for comment navigation.
+		the_comments_navigation();
+
+		// If comments are closed and there are comments, display a message.
+		if ( ! comments_open() ) :
+			?>
+			<p class="no-comments"><?php esc_html_e( 'Comments are closed.', 'wordpress-starter-theme' ); ?></p>
+			<?php
+		endif;
 
 	endif; // Check for have_comments().
 
-
-	// If comments are closed and there are comments, let's leave a little note
-	if ( ! comments_open() && get_comments_number() && post_type_supports( get_post_type(), 'comments' ) ) : ?>
-
-		<p class="no-comments"><?php esc_html_e( 'Comments are closed.', 'walkestarter' ); ?></p>
-	<?php
-	endif;
-
-	comment_form();
+	comment_form(
+		array(
+			'title_reply_before' => '<h2 id="reply-title" class="comment-reply-title">',
+			'title_reply_after'  => '</h2>',
+		)
+	);
 	?>
 
 </div><!-- #comments -->

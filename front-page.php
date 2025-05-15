@@ -1,32 +1,48 @@
+<?php
+/**
+ * The template for displaying the front page.
+ *
+ * This is the template that displays the front page of your WordPress theme.
+ * It is used when a static page is set as the front page in Settings > Reading.
+ * It will override home.php and index.php for the front page display.
+ *
+ * @link https://developer.wordpress.org/themes/basics/template-hierarchy/#front-page-display
+ *
+ * @package WordPress_Starter_Theme
+ * @since   1.0
+ * @version 2.0
+ */
 
-<?php get_header(); //Header?> 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
+get_header();
+?>
 
-<div id="primary" class="content-area extended">
-    <main id="main" class="site-main" role="main">
+	<section id="primary" class="content-area">
+		<main id="main" class="site-main">
 
-        <?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
+			<?php
+			// Start the Loop.
+			while ( have_posts() ) :
+				the_post();
 
-        <?php get_template_part( '/template-parts/content' ,'front'); ?>
+				// Include the page content template.
+				get_template_part( 'template-parts/page/content', 'front' );
 
-        <?php endwhile; else : ?>
-        
-        <?php get_template_part( '/template-parts/content', 'none' ); ?>
+				// If comments are open or we have at least one comment, load up the comment template.
+				// (Optional for front page, depending on design)
+				// if ( comments_open() || get_comments_number() ) :
+				// comments_template();
+				// endif;
+			endwhile; // End of the loop.
+			?>
 
-        <?php endif; ?>
+		</main><!-- #main -->
+	</section><!-- #primary -->
 
-        <?php echo paginate_links(); ?>
-        <?php wp_link_pages(); ?>
-
-
-
-    </main>
-
-
-  
-
-</div>
-
-
-<?php get_footer(); //Footer ?>
-
+<?php
+// get_sidebar(); // Uncomment if you want a sidebar on your front page.
+get_footer();

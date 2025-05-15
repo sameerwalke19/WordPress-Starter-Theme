@@ -1,0 +1,781 @@
+
+/*
+* Table of Contents
+*
+* 1.0 - General Layout
+* 2.0  - Header
+* 3.0  - Navigation
+* 4.0  - Content (Includes general content, entries, titles, meta, footers, "Nothing Found", 404, etc.)
+* 5.0  - Pagination Styles
+* 6.0  - Sidebar
+* 7.0  - Footer
+* 8.0  - Widgets
+* 9.0  - Forms
+* 10.0 - Tables
+* 11.0 - Media
+* 12.0 - Accessibility
+* 13.0 - Layout Variations (Full Width Styles)
+* 14.0 - Author Profile Box Styles
+* 15.0 - Mobile Styles
+*/
+
+/* 1.0 - General Layout */
+
+html {
+    box-sizing: border-box;
+}
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: 100%; /* Use percentage for better accessibility and browser scaling */
+    line-height: 1.6;
+}
+
+/* Global link styles */
+a {
+    color: #0073aa; /* Example default link color */
+    text-decoration: none; /* Remove underline by default */
+}
+
+
+/* 2.0 - Header */
+
+.site-header {
+    display: flex;
+    justify-content: flex-start; /* Aligns items to the start (left) */
+    background-color: #fff; /* Added white background for full-width header */
+    align-items: center; /* Vertically aligns items in the middle */
+    padding: 15px 20px; /* Adjust padding for horizontal spacing */
+    margin-bottom: 20px; /* Space below the entire header block */
+    color: #333; /* Default text color for header content */
+    border-bottom: 1px solid #eee; /* Optional: subtle border for white header */
+}
+
+.site-title {
+    margin: 0;
+    font-size: 1.8em; /* Further reduced site title size */
+    font-weight: 600; /* Slightly bolder for more impact */
+}
+/* Ensure site title link is dark on white background */
+.site-title a {
+    color: #222; /* Darker color for site title link */
+    text-decoration: none;
+}
+
+/* Style for the custom logo if used */
+.custom-logo-link img {
+    max-height: 60px; /* Adjust as needed - smaller logo */
+    width: auto; /* Maintain aspect ratio */
+    display: block; /* Remove any extra space below the image */
+    vertical-align: middle; /* Aligns image nicely if text were ever beside it in the same block */
+}
+
+.site-description {
+    font-style: italic;
+    color: #555; /* Slightly lighter dark color for description */
+}
+
+/* 3.0 - Navigation */
+
+.site-branding {
+    padding-right: 33px;
+}
+
+.site-navigation {
+    /* background-color and color inherited from .site-header */
+    /* padding handled by align-items and header padding */
+    /* margin-bottom moved to .site-header */
+    margin-left: 30px; /* Use margin to create space between site branding and navigation */
+}
+
+.main-navigation .primary-menu-list { /* Target the UL with its class from wp_nav_menu */
+    list-style: none; /* Remove default list bullets */
+    display: flex; /* Use flexbox for horizontal layout */
+    margin: 0;
+    padding: 0;
+}
+
+.main-navigation .primary-menu-list > li { /* Target top-level li items */
+    display: inline;
+    margin-right: 20px;
+    position: relative; /* Keep for submenu positioning */
+}
+
+.main-navigation .primary-menu-list > li:last-child {
+    margin-right: 0;
+}
+
+.main-navigation a { /* General link styles within navigation */
+    color: #333; /* Dark color for navigation links */
+    text-decoration: none;
+    font-weight: 700; /* Slightly less bold */
+    font-size: 1em; /* Smaller navigation font */
+    display: inline-block; /* Keep display: inline-block for padding/margins */
+    padding: 18px 12px; /* Adjust padding for smaller font */
+}
+
+.main-navigation .primary-menu-list > li > a:hover,
+.main-navigation .primary-menu-list > li > a:focus { /* Hover/focus for top-level links */
+    color: #0073aa; /* WordPress blue for hover, or your preferred accent color */
+    /* text-decoration: underline; */ /* Removed underline on hover */
+    background-color: #f0f0f0; /* Subtle light background change on hover */
+}
+
+/* Styles for current menu item and its ancestors/parents */
+.main-navigation .primary-menu-list > .current-menu-item > a,
+.main-navigation .primary-menu-list > .current-menu-ancestor > a,
+.main-navigation .primary-menu-list > .current-page-ancestor > a,
+.main-navigation .primary-menu-list > .current-menu-parent > a {
+    color: #000; /* Highlight current item - darker */
+    background-color: #e9e9e9; /* Different light background for current item */
+}
+
+/* Common Submenu Styles (applies to all levels) */
+.main-navigation .sub-menu {
+    display: none; /* Hidden by default */
+    position: absolute;
+    background-color: #f9f9f9; /* Light background for submenus */
+    padding: 0; /* Reset padding, apply to links/li if needed */
+    min-width: 200px; /* Adjust min-width for smaller fonts */
+    z-index: 1000; /* Ensure it's above other content */
+    box-shadow: 0px 3px 5px rgba(0,0,0,0.2);
+    list-style: none; /* Ensure no bullets in submenus */
+}
+
+/* First Level Submenu (Dropdown) */
+.main-navigation .primary-menu-list > .menu-item-has-children > .sub-menu {
+    top: 100%; /* Position below the parent li */
+    left: 0;
+    border-top: 1px solid #e0e0e0; /* Light border for submenu */
+}
+
+/* Deeper Level Submenus (Flyout to the side) */
+.main-navigation .sub-menu .menu-item-has-children > .sub-menu {
+    top: 0; /* Align with the top of the parent li */
+    left: 100%; /* Position to the right of the parent li */
+    margin-top: 0; /* Reset any top margin */
+    margin-left: 0; /* Usually no gap needed if borders are handled well */
+    border-top: none; /* Usually no top border for flyouts */
+    /* border-left: 1px solid #555; */ /* Optional: if a vertical separator is desired */
+}
+
+/* Show Submenu on Hover/Focus */
+.main-navigation .menu-item-has-children:hover > .sub-menu,
+.main-navigation .menu-item-has-children:focus-within > .sub-menu { /* Show on hover or when an item inside has focus */
+    display: block;
+}
+
+/* List Items within ANY Submenu */
+.main-navigation .sub-menu li {
+    display: block; /* Stack submenu items vertically */
+    margin: 0; /* Reset any inherited margin */
+    width: 100%;
+    position: relative; /* Crucial for further nested submenus */
+}
+
+/* Links within ANY Submenu */
+.main-navigation .sub-menu a {
+    display: block; /* Make the link fill the li */
+    padding: 7px 12px; /* Adjust padding for smaller font */
+    font-size: 0.85em; /* Even smaller for sub-menu items */
+    font-weight: normal; /* Submenu links are often not bold */
+    color: #444; /* Dark text color for sub-items */
+    white-space: nowrap; /* Prevent text from wrapping */
+    text-decoration: none; /* Remove underline from main nav hover */
+    border-bottom: 1px solid #e9e9e9; /* Light separator for submenu items */
+}
+.main-navigation .sub-menu li:last-child > a {
+    border-bottom: none; /* Remove border from last item */
+}
+
+/* Hover state for links within ANY Submenu */
+.main-navigation .sub-menu a:hover,
+.main-navigation .sub-menu a:focus {
+    background-color: #e9e9e9; /* Light hover state for submenu items */
+    color: #0073aa; /* WordPress blue or accent color on hover */
+}
+
+/* Menu Toggle Button (for mobile) */
+.menu-toggle {
+    display: none; /* Hidden on desktop by default */
+    background: #f0f0f0; /* Light background for toggle */
+    color: #333; /* Dark color for icon if using font icon */
+    border: none;
+    padding: 0; /* Reset padding if using fixed size for icon */
+    cursor: pointer;
+    font-size: 1em; /* Base size, text itself will be hidden */
+    /* Visually hide the text "Menu", relying on an icon (to be added via CSS/PHP) */
+    text-indent: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 40px; /* Example fixed size for an icon button */
+    height: 40px; /* Example fixed size for an icon button */
+    position: relative; /* For potential icon positioning */
+}
+
+/* 4.0 - Content */
+
+.site-content {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap; /* Allow items to wrap to the next line */
+}
+
+.content-area {
+    width: 73%;
+    flex-shrink: 0; /* Prevent this area from shrinking if space is unexpectedly tight */
+    background-color: #fff; /* Added white background for the main content area */
+    padding: 20px; /* Added padding for the content area */
+}
+
+/* General Page Titles (e.g., Archive, Search, Blog Home, 404 headers) */
+.page-title {
+    font-size: 2em; /* Standard large title for page headers */
+    text-align: center;
+    margin-bottom: 15px; /* Consistent margin */
+    color: #333; /* Consistent color */
+}
+/* Header for single posts */
+.content-single .entry-header {
+    padding-bottom: 20px; /* Space between meta and the new border */
+    margin-bottom: 20px;  /* Space between the new border and the content/thumbnail below */
+    border-bottom: 1px solid #eee; /* Separator line */
+}
+
+
+
+/* Entry Titles within content articles */
+.entry-title {
+    font-size: 2.5em; /* Larger for single post/page main titles */
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+/* Titles for items in lists/archives (excerpts) */
+h2.entry-title {
+    font-size: 1.5em; /* Smaller for list item titles */
+    text-align: left;
+    margin-bottom: 8px; /* Adjust margin for smaller titles */
+}
+
+.archive-description {
+    text-align: center;
+}
+
+.entry-content {
+    margin-bottom: 20px;
+    overflow-wrap: break-word; /* Helps prevent overflow from long strings */
+    word-wrap: break-word; /* Older browser fallback for overflow-wrap */
+}
+.entry-meta {
+    /* Links within entry-meta inherit text-decoration from the global 'a' rule. */
+
+    color: #777;
+    font-size: 0.9em;
+    text-align: center; /* Center the meta text */
+    margin-bottom: 15px; /* Add some space below the meta line */
+}
+
+/* Ensure entry-meta within excerpts is left-aligned */
+.content-excerpt .entry-meta {
+    text-align: left;
+}
+.content-archive .entry-meta {
+    text-align: left;
+}
+
+.entry-footer {
+    color: #777;
+    font-size: 0.9em;
+    margin-top: 20px; /* Add some space above the footer */
+}
+.entry-footer .edit-link a {
+    /* Style for the edit link if needed, e.g., color, text-decoration */
+}
+
+/* Ensure links within the main content area are underlined */
+.entry-content a {
+    text-decoration: underline;
+}
+
+/* Breadcrumbs Navigation */
+.breadcrumbs {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.breadcrumbs-nav {
+    font-size: 0.9em;
+    color: #555;
+    margin-bottom: 20px;
+    padding-bottom: 10px; /* Space before content if breadcrumbs are long */
+    border-bottom: 1px solid #eee; /* Optional separator */
+    text-align: center; /* Uncomment to center breadcrumbs */
+}
+
+.breadcrumbs-nav a {
+    color: #0073aa;
+}
+
+.breadcrumbs-nav a:hover {
+    /* text-decoration: underline; */ /* Removed underline on hover */
+}
+
+/* 5.0 - Sidebar */
+
+.widget-area {
+    width: 25%;
+    flex-shrink: 0; /* Prevent this area from shrinking */
+    background-color: #f9f9f9;
+    padding: 17px;
+    border: 1px solid #eee;
+}
+
+.widget-title {
+    font-size: 1.4em;
+    margin-bottom: 10px;
+}
+
+/* 6.0 - Footer */
+
+.site-footer {
+    text-align: center;
+    padding: 20px; /* Adjusted for consistent horizontal padding */
+    margin-top: 20px;
+    background-color: #333;
+    color: #fff;
+}
+
+.site-footer a {
+    color: #f1f1f1; /* Light color for footer links */
+}
+
+.site-footer a:hover,
+.site-footer a:focus {
+    color: #fff; /* Brighter white on hover/focus */
+    text-decoration: none;
+}
+.site-info {
+    font-size: 0.9em;
+}
+
+/* Styles for "Nothing Found" (content-none.php) */
+.no-results {
+    padding: 20px; /* Add some padding around the "nothing found" message */
+    /* background-color: #f9f9f9; */ /* Optional: slight background to differentiate */
+    /* border: 1px solid #eee; */ /* Optional: a light border */
+    margin-bottom: 20px; /* Space below the section */
+}
+
+/* .no-results .page-title will inherit from the general .page-title rule */
+/* No specific .no-results .page-title styles needed if inheriting is desired. */
+
+.no-results .page-content p {
+    margin-bottom: 15px;
+}
+
+/* Styles for 404 Page (404.php) */
+.error-404.not-found {
+    padding: 20px; /* Consistent with .no-results */
+    margin-bottom: 20px; /* Consistent with .no-results */
+    text-align: center; /* Center all inline/inline-block content within this section */
+}
+
+/* The .page-title within .error-404 is already centered by the global .page-title rule. */
+/* The <p> text within .page-content will be centered due to text-align on .error-404.not-found. */
+
+.error-404.not-found .search-form {
+    margin-top: 20px; /* Space above the search form */
+    /* The input field (display: block from global styles) will take full width of its container.
+       Its placeholder text will be centered. The submit button (inline-block) will be centered. */
+}
+
+.post-navigation { /* Target both list and single post navigation */
+    width: 100%;
+    padding-top: 20px; /* Space between the new top border and the pagination links */
+    padding-bottom: 20px; /* Space between pagination links and the new bottom border */
+    border-top: 1px solid #eee; /* Separator line */
+    border-bottom: 1px solid #eee; /* Separator line after pagination, before comments */
+
+}
+
+/* Pagination Styles */
+.posts-navigation {
+    overflow: hidden; /* Clear floats */
+}
+
+.posts-navigation .nav-links {
+    display: flex;
+    justify-content: space-between; /* Align newer to left, older to right */
+    align-items: center;
+    padding: 0 20px; /* Add some horizontal padding if pagination is truly full-bleed */
+    box-sizing: border-box;
+}
+
+.posts-navigation .nav-previous,
+.posts-navigation .nav-next {
+    /* flex-basis: 48%; */ /* If you want them to take up roughly half each */
+}
+
+.posts-navigation a {
+    display: inline-block;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: #333;
+    background-color: #f9f9f9;
+}
+
+.posts-navigation a:hover,
+.posts-navigation a:focus {
+    background-color: #eee;
+    border-color: #ccc;
+}
+
+/* Styles for Single Post Navigation (.post-navigation) */
+.post-navigation .nav-links {
+    display: flex;
+    justify-content: space-between; /* Align previous to left, next to right */
+    align-items: center;
+    padding: 0 20px; /* Add some horizontal padding if pagination is truly full-bleed */
+    box-sizing: border-box;
+}
+
+/* Numbered Pagination (if using the_posts_pagination()) */
+/*
+.navigation.pagination {
+    text-align: center;
+    margin: 20px 0;
+}
+.navigation.pagination .nav-links {
+    display: inline-block; / * Or flex for more control over items * /
+}
+*/
+/* 7.0 - Widgets */
+
+.widget {
+    margin-bottom: 20px;
+}
+
+.widget ul {
+    list-style: none;
+    padding: 0;
+}
+
+.widget li {
+    padding: 5px 0;
+}
+
+/* 8.0 - Forms */
+
+/* Basic styles for common form elements */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="url"],
+input[type="tel"],
+input[type="number"],
+textarea {
+    width: 100%; /* Make inputs take full width of their container */
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+button,
+input[type="submit"] {
+    background-color: #0073aa;
+    display: inline-block; /* Buttons are inline-block by default, good to be explicit */
+    vertical-align: middle; /* Align button nicely with inputs if on the same line */
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover,
+input[type="submit"]:hover {
+    background-color: #005177;
+}
+
+/* Add basic padding and margin to inputs/textareas */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="url"],
+input[type="tel"],
+input[type="number"],
+textarea {
+    padding: 10px;
+    margin-bottom: 15px; /* Add space below each input */
+    line-height: 1.5; /* Improve readability */
+    font-size: 1em; /* Ensure font size is readable */
+}
+
+/* 9.0 - Tables */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: left;
+}
+
+th {
+    background-color: #f0f0f0;
+}
+
+/* 10.0 - Media */
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Styles for WordPress Post Thumbnails (Featured Images) */
+.post-thumbnail {
+    margin-bottom: 1.5em; /* Add some space below the thumbnail block */
+    line-height: 0; /* Prevent extra space if the image doesn't fill the container */
+}
+
+.post-thumbnail img {
+    display: block; /* Ensures it behaves as a block, good for margin/padding */
+    width: 100%; /* Make image fill the .post-thumbnail container */
+    /* max-width: 100%; height: auto; is already globally applied, which is good */
+    border-radius: 4px; /* Optional: subtle rounded corners for thumbnails */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.07); /* Optional: subtle shadow for a bit of depth */
+}
+
+/* Example: Making thumbnails smaller in archive/list views */
+/* This assumes your theme adds body classes like .archive, .blog, .search-results */
+.archive .post-thumbnail,
+.blog .post-thumbnail,
+.author .post-thumbnail, /* Added for author archives */
+.search-results .post-thumbnail {
+    max-width: 300px; /* Constrain the width of the thumbnail container */
+    /* Or, if you want to float it:
+    float: left;
+    margin-right: 20px;
+    margin-bottom: 10px;
+    max-width: 250px; /* Adjust width when floated */
+    */
+}
+
+/* Ensure floated thumbnails in archives don't break layout of subsequent elements */
+/* Apply to the parent of the floated thumbnail if needed, e.g., .entry-summary or .post */
+/* .archive .entry-summary::after,
+.blog .entry-summary::after,
+.search-results .entry-summary::after {
+    content: "";
+    display: table;
+    clear: both;
+} */
+
+/* Styles for images with captions (figure and figcaption) */
+figure {
+    margin: 0 0 1.5em 0; /* Default browser margins can be inconsistent */
+}
+
+figcaption {
+    font-size: 0.9em;
+    color: #555; /* Slightly muted color for captions */
+    text-align: center; /* Or 'left' if preferred */
+    margin-top: 0.5em;
+}
+
+/* 11.0 - Accessibility */
+
+.screen-reader-text {
+    position: absolute;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+}
+
+/* 13.0 - Layout Variations (Full Width Styles) */
+.home .content-area,
+.front-page .content-area {
+    width: 100%; /* Make content area full width on front page */
+}
+
+.home .widget-area,
+.front-page .widget-area {
+    display: none; /* Hide sidebar on front page */
+}
+
+/* Make content area full width on default pages */
+body.page .content-area {
+    width: 100%;
+}
+
+/* Make content area full width on 404 pages */
+body.error404 .content-area {
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+        padding: 10px;
+    }
+
+    .menu-toggle {
+        display: inline-block; /* Show the menu toggle button */
+        /* Add styles for a hamburger icon here if not done in PHP, e.g., using ::before/::after */
+    }
+
+    .site-content {
+        flex-direction: column;
+    }
+
+    .content-area,
+    .widget-area {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .main-navigation .primary-menu-list {
+        display: none; /* Hide the main menu by default on mobile */
+        width: 100%; /* Take full width when shown */
+    }
+
+    .main-navigation .primary-menu-list.toggled-on { /* This class would be added by JS */
+        display: block; /* Show when toggled */
+    }
+
+    .main-navigation .primary-menu-list > li {
+        display: block;
+        margin: 0; /* Reset desktop margins */
+        width: 100%;
+    }
+
+    .main-navigation .primary-menu-list > li > a {
+        padding: 10px 15px;
+        display: block;
+        border-bottom: 1px solid #ddd; /* Light separator for mobile menu items */
+    }
+    .main-navigation .primary-menu-list > li:last-child > a {
+        border-bottom: none;
+    }
+
+    /* Mobile Submenu Styles */
+    .main-navigation .sub-menu {
+        position: static; /* Submenus flow in document on mobile */
+        display: block !important; /* Or control with JS; for now, show if parent is visible */
+        width: auto;
+        background-color: #f8f8f8; /* Slightly different light background for indent */
+        box-shadow: none;
+        border: none;
+        padding-left: 20px; /* Indent submenus */
+        margin-left: 0; /* Reset desktop specific margins */
+    }
+    .main-navigation .sub-menu a {
+        color: #555; /* Dark color for mobile submenu items */
+        padding: 8px 15px;
+        border-bottom: 1px dotted #ccc; /* Lighter separator for sub-items */
+    }
+    .main-navigation .sub-menu li:last-child a {
+        border-bottom: none;
+    }
+
+    .main-navigation .sub-menu .menu-item-has-children > .sub-menu {
+        padding-left: 20px; /* Further indent deeper submenus */
+        /* Reset desktop specific positioning */
+        position: static;
+        left: auto;
+        top: auto;
+    }
+
+    /* Responsive adjustments for the author box - MOVED HERE */
+    .author-profile-box {
+        flex-direction: column; /* Stack avatar and details vertically */
+        align-items: center;    /* Center items when stacked */
+    }
+
+    .author-profile-box .author-avatar {
+        margin-bottom: 15px; /* Space below avatar when stacked */
+    }
+
+    .author-profile-box .author-name.page-title {
+        text-align: center; /* Ensure name is centered on small screens */
+    }
+}
+
+/* Author Profile Box Styles (for content-author.php) */
+.author-profile-box {
+    background-color: #f9f9f9; /* Light grey background */
+    border: 1px solid #e0e0e0; /* Light border */
+    border-radius: 8px;        /* Rounded corners */
+    padding: 25px;             /* Generous padding */
+    margin-bottom: 30px;       /* Space below the box before posts */
+    display: flex;             /* Use flexbox for layout */
+    align-items: flex-start;   /* Align items to the top */
+    gap: 20px;                 /* Space between avatar and details */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Subtle shadow */
+}
+
+.author-profile-box .author-avatar img {
+    border-radius: 50%; /* Circular avatar */
+    border: 3px solid #fff; /* White border around avatar */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* Slight shadow for avatar */
+    display: block; /* Ensure no extra space below image */
+}
+
+.author-profile-box .author-details {
+    flex-grow: 1; /* Allow details to take remaining space */
+}
+
+.author-profile-box .author-name.page-title { /* Targeting the h1 specifically within author box */
+    margin-top: 0; /* Remove default top margin from h1 if any */
+    margin-bottom: 10px;
+    font-size: 1.8em; /* Specific size for author box, overrides general .page-title */
+    text-align: left; /* Override global .page-title center alignment for this box */
+    color: #222; /* Darker color for name */
+}
+
+.author-profile-box .author-bio {
+    font-size: 0.95em;
+    line-height: 1.7;
+    color: #444;
+}
+
+    /* In main.css, within an appropriate section like 4.0 - Content */
+
+.entry-summary .read-more {
+    /* display: inline-block; */ /* If you want to add padding/margins */
+    /* margin-left: 5px; */
+    font-weight: bold;
+    /* color: #0073aa; */ /* Or your theme's accent color */
+}
+
+.entry-summary .read-more:hover {
+    text-decoration: underline;
+}
+
+/* Excerpt Separator */
+hr.excerpt-separator {
+    border: 0;
+    height: 1px;
+    background-color: #ddd; 
+    margin-top: 30px;   
+    margin-bottom: 30px;
+}
+
+.entry-tags {
+    padding: 20px 0;
+    border-top: 1px solid #eee; /* Separator line */
+}

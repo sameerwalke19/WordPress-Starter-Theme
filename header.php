@@ -1,58 +1,48 @@
+<?php
+/**
+ * The header for our theme.
+ *
+ * This is the template that displays all of the <head> section and everything up until <div id="content">
+ *
+ * @link https://developer.wordpress.org/themes/basics/template-files/#template-partials
+ *
+ * @package WordPress_Starter_Theme
+ * @since   1.0
+ * @version 2.0
+ */
+
+?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width,  initial-scale=1">
-        <link rel="profile" href="http://gmpg.org.xfn/11">
-        <?php wp_head(); ?>
-    </head>
+<head>
+<meta charset="<?php bloginfo( 'charset' ); ?>">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="profile" href="https://gmpg.org/xfn/11">
+<?php wp_head(); ?>
+</head>
 
 <body <?php body_class(); ?>>
-<?php wp_body_open(); ?>
+<?php wp_body_open(); // Hook for plugins and themes, introduced in WP 5.2. ?>
 
- <div id="page">
+<div id="page" class="site">
+	<a class="skip-link screen-reader-text" href="#primary"><?php esc_html_e( 'Skip to content', 'wordpress-starter-theme' ); ?></a>
 
- <a href="#content" class="skip-link screen-reader-text">
-    <?php esc_html_e( 'skip to content', 'walkestarter' ); ?>
-</a>
+		<?php
+		/**
+		 * Hook: wordpress_starter_theme_before_header
+		 */
+		do_action( 'wordpress_starter_theme_before_header' );
+		?>
 
- <header id="masthead" class="site-header" role="banner">
+		<header id="masthead" class="site-header">
+			<?php get_template_part( 'template-parts/header/site', 'branding' ); ?>
+			<?php get_template_part( 'template-parts/navigation/navigation', 'primary' ); ?>
+		</header><!-- #masthead -->
 
- <div class="site-branding">
-     <p class="site-title">
-     <?php
-			the_custom_logo();
-			if ( is_front_page() && is_home() ) :
-				?>
-				<h1 class="site-logo"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php the_custom_logo(); ?></a></h1>
-				<?php
-			else :
-				?>
-				<p class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></p>
-				<?php
-			endif;
-			$walkestarter_description = get_bloginfo( 'description', 'display' );
-			if ( $walkestarter_description || is_customize_preview() ) :
-				?>
-				<p class="site-description"><?php echo $walkestarter_description; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></p>
-			<?php endif; ?>
-		</div><!-- .site-branding -->
-
-<div class="theme-menu">
-<nav id="site-navigation" class="main-navigation" role="navigation" >
-
-<?php
-      wp_nav_menu(
-        array(
-            'theme_location' => 'menu-1',
-            'menu_id'        => 'primary-menu',
-        )
-    );
-?>
-</nav>
-</div>
-
-</header>
-<hr>
-<div id="content" class="site-content">
+		<?php
+		/**
+		 * Hook: wordpress_starter_theme_after_header
+		 */
+		do_action( 'wordpress_starter_theme_after_header' );
+		?>
+	<div id="content" class="site-content">

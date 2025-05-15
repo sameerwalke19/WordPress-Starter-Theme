@@ -1,0 +1,47 @@
+/**
+ * Editor Styles
+ *
+ * This stylesheet is used to style the content within the WordPress block editor (Gutenberg)
+ * and the classic editor (TinyMCE), aiming to make the editor experience closely match
+ * the front-end appearance of the theme.
+ *
+ * @package WordPress_Starter_Theme
+ * @since   2.0
+ * @version 2.0
+ */
+
+
+/* Basic resets and body styles to match the front-end */
+body {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #333;
+    max-width: 80%;
+    margin: 20px auto;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+    line-height: 1.2;
+}
+
+h1 { font-size: 2em; }
+h2 { font-size: 1.8em; }
+h3 { font-size: 1.6em; }
+h4 { font-size: 1.4em; }
+h5 { font-size: 1.2em; }
+h6 { font-size: 1em; }
+
+/* Paragraphs */
+p {
+    margin-bottom: 1em;
+}
+
+/* Links */
+a {
+    color: #0073aa;
+    text-decoration: none;
+}

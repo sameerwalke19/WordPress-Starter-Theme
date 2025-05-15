@@ -1,30 +1,39 @@
+<?php
+/**
+ * The template for displaying 404 pages (not found)
+ *
+ * @link https://codex.wordpress.org/Creating_an_Error_404_Page
+ *
+ * @package WordPress_Starter_Theme
+ * @since   1.0
+ * @version 2.0
+ */
 
-<?php get_header(); //Header?> 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
+get_header();
+?>
 
-<div id="primary" class="content-area">
-    <main id="main" class="site-main" role="main">
+	<section id="primary" class="content-area">
+		<main id="main" class="site-main">
 
-        <?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
+			<section class="error-404 not-found">
+				<header class="page-header">
+					<h1 class="page-title"><?php esc_html_e( 'Oops! That page can&rsquo;t be found.', 'wordpress-starter-theme' ); ?></h1>
+				</header><!-- .page-header -->
 
-        <?php get_template_part( '/template-parts/content' ,'page'); ?>
+				<div class="page-content">
+					<p><?php esc_html_e( 'It looks like nothing was found at this location. Maybe try one of the links below or a search?', 'wordpress-starter-theme' ); ?></p>
 
-        <?php endwhile; else : ?>
-        
-        <?php get_template_part( '/template-parts/content', 'none' ); ?>
+					<?php get_search_form(); ?>
 
-        <?php endif; ?>
+				</div><!-- .page-content -->
+			</section><!-- .error-404 -->
 
-       
+		</main><!-- #main -->
+	</section><!-- #primary -->
 
-
-
-    </main>
-
-</div>
-
-<?php get_sidebar(); //sidebar ?>
-
-
-<?php get_footer(); //Footer ?>
-
+<?php get_footer();?>
